@@ -28,3 +28,25 @@ jobs:
       run:  echo "Konspirat0r"
     - name: Run unit tests  
       run: npm run test:unit
+
+  test_ui:
+
+    runs-on: ubuntu-latest
+    needs: build_and_unit_test
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+        cache: 'npm'
+    - name: Install packages   
+      run: npm install
+    - name: Install Playwright browsers  
+      run: npx playwright install      
+    - name: Start app in background
+      run: npm run start &
+    - name: Start UI tests    
+      run: npm run test:ui
