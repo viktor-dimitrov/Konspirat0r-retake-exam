@@ -50,3 +50,15 @@ jobs:
       run: npm run start &
     - name: Start UI tests    
       run: npm run test:ui
+
+  deploy:
+
+    runs-on: ubuntu-latest
+    needs: test_ui
+    
+    steps:
+    - name: Deploy on Render
+      uses: johnbeynon/render-deploy-action@v0.0.8
+      with:
+        service-id: ${{ secrets.SERVICE_ID }}
+        api-key: ${{ secrets.API_KEY }}
